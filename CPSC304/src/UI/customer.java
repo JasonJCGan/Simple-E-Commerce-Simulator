@@ -21,4 +21,5 @@ public class customer {
     private JTextField order_sellerID;
     private JTextField order_quantity;
     private JButton putOrderButton;
+    public JPanel CustomerUI;
 }

@@ -9,4 +9,5 @@ public class seller {
     private JTextField textField6;
     private JButton addProductButton;
     private JButton deleteProductButton;
+    public JPanel SellerUI;
 }
