@@ -8,5 +8,8 @@ public class JFrame_main {
         frame.setContentPane(new login().log_in);
         frame.pack();
         frame.setVisible(true);
+
+
+
     }
 }

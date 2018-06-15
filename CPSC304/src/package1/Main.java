@@ -9,7 +9,6 @@ import java.awt.Rectangle;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.*;
 
@@ -44,7 +43,7 @@ public class Main extends JFrame {
 		connect(username, password);
 
 		selectUser();
-		System.out.println("Welcome to the Market);
+		System.out.println("Welcome to the Market");
 	}
 	
 
@@ -115,19 +114,6 @@ public class Main extends JFrame {
 	      // place the cursor in the text field for the username
 	      usernameField.requestFocus();	
 	}
-
-	
-	private static void function1() throws SQLException {
-		//make a sql statement
-		Statement stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT * FROM branch");
-		
-		while(rs.next()){
-			System.out.println(rs.getString(1));
-		}
-		
-	}
-
 
 
 	/*
