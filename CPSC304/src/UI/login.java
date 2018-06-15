@@ -1,7 +1,8 @@
 import javax.swing.*;
 
 public class login {
-    private JButton login;
-    private JTextField usernameTextField;
-    private JTextField passwordTextField;
+    private JTextField customerID;
+    private JTextField sellerID;
+    private JButton logInAsCustomerButton;
+    private JButton logInAsSellerButton;
 }
