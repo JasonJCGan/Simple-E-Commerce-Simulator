@@ -1,0 +1,23 @@
+package package1;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class Connections {
+    private static Connection con=null;
+
+    private Connections() throws SQLException{
+        con = DriverManager.getConnection("jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522/ug", "ora_s1h0b", "a33731143");
+        //con = DriverManager.getConnection("jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522/ug", "ora_p6g1b", "a18564104");
+
+    }
+
+    public static Connection getConnection() throws SQLException{
+        if(con == null){
+            new Connections();
+        }
+        return con;
+
+    }
+}
