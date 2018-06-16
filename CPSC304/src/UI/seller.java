@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class seller {
     private JTextField textField1;
@@ -10,4 +12,19 @@ public class seller {
     private JButton addProductButton;
     private JButton deleteProductButton;
     public JPanel SellerUI;
+
+    public seller() {
+        addProductButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        deleteProductButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+    }
 }
