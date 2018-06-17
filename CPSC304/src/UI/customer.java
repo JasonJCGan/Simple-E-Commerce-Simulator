@@ -24,6 +24,11 @@ public class customer {
     private JTextField order_quantity;
     private JButton putOrderButton;
     public JPanel CustomerUI;
+    private String customerID;
+
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
+    }
 
     public customer() {
         findCheapestProductButton.addActionListener(new ActionListener() {
