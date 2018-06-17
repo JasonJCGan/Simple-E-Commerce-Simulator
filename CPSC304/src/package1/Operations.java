@@ -1,9 +1,7 @@
 package package1;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.sound.midi.SysexMessage;
+import java.sql.*;
 
 public class Operations {
     /**************** Queries for Customer Login(YUAN) *****************************/
@@ -36,6 +34,60 @@ public class Operations {
                 ResultSet temp = ps.executeQuery();
                 r = !temp.wasNull();
                 ps.close();
+            }
+        }catch (Exception e){
+            throw new SQLException();
+        }
+        return r;
+    }
+
+    /**************** Queries for Seller Add Product(Jason) *****************************/
+    public boolean s_addProduct(int id, int quantity, String name, String category,
+                                String brand, float price, float discount, int sellerId,
+                                Connection con) throws SQLException {
+        boolean r;
+        try {
+            PreparedStatement ps = con.prepareStatement
+                    ("INSERT INTO producthas " +
+                            "(producthas_id,producthas_stock,producthas_name,producthas_category,producthas_brand,producthas_price,producthas_vipdiscount,seller_id) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+//            PreparedStatement ps = con.prepareStatement
+//                    ("INSERT INTO seller VALUES (?, ?, ?, ?)");
+//            ps.setInt(1,1);
+//            ps.setString(2, "jason");
+//            ps.setString(3, "6049991111");
+//            ps.setString(4, "my address bc canada");
+
+            ps.setInt(1, id);
+            ps.setInt(2, quantity);
+            ps.setString(3, name);
+            ps.setString(4, category);
+            ps.setString(5, brand);
+            ps.setFloat(6, price);
+            ps.setFloat(7, discount);
+            ps.setInt(8, sellerId);
+            System.out.println(ps.toString());
+            ps.executeUpdate();
+            System.out.println("after");
+            con.commit();
+            ps.close();
+            r = true;
+        }
+        catch (Exception e){
+            throw new SQLException();
+        }
+        return r;
+    }
+    /**************** Queries for Seller Delete Product(Jason) *****************************/
+    public boolean s_deleteProduct(int id, Connection con) throws SQLException {
+        boolean r;
+        try{
+            try (PreparedStatement ps = con.prepareStatement
+                    ("DELETE FROM producthas WHERE producthas_id = ?")) {
+                ps.setInt(1, id);
+                ps.executeUpdate();
+                r = true;
+                con.commit();
             }
         }catch (Exception e){
             throw new SQLException();
