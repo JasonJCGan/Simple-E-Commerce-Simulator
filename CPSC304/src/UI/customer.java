@@ -122,9 +122,9 @@ public class customer {
                 try {
                     Connection con = Connections.getConnection();
                     Statement stmt = con.createStatement();
-                    ResultSet rs = stmt.executeQuery("SELECT AVG(R.rating) " +
-                            "FROM Rating R " +
-                            "WHERE R.ProductID = " +
+                    ResultSet rs = stmt.executeQuery("SELECT AVG(R.rate_rating) " +
+                            "FROM rate R " +
+                            "WHERE R.Producthas_ID = " +
                             search_rating.getText());
 
 
