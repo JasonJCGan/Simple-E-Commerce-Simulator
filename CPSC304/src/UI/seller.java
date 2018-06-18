@@ -1,4 +1,5 @@
 import net.proteanit.sql.DbUtils;
+import package1.ActiveUser;
 import package1.Connections;
 import package1.Operations;
 
@@ -23,8 +24,8 @@ public class seller {
     private JTable tableProduct;
     private JTable tableRatings;
 
-    private String sellerID;
     private static Connection con;
+    private ActiveUser activeUser = ActiveUser.getActiveUser();
 
     static {
         try {
@@ -49,7 +50,7 @@ public class seller {
                             textProdBrand.getText(),
                             Float.parseFloat(textProdPrice.getText()),
                             10,
-                            1,
+                            activeUser.getUser_id(),
                             con);
                     if (added) {
                         // log in to Customer UI
@@ -116,13 +117,5 @@ public class seller {
         });
 
 
-    }
-
-    public void setSellerID(String id) {
-        this.sellerID = id;
-    }
-
-    public String getSellerID() {
-        return this.sellerID;
     }
 }

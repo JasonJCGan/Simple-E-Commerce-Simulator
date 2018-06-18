@@ -1,7 +1,7 @@
+import package1.ActiveUser;
 import package1.Connections;
 import package1.Operations;
 
-import javax.sound.midi.SysexMessage;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +16,7 @@ public class login {
     private JButton logInAsSellerButton;
 
     public Operations ope = new Operations();
+    private ActiveUser activeUser = ActiveUser.getActiveUser();
     private static Connection con;
 
     static {
@@ -44,6 +45,8 @@ public class login {
                             frame.pack();
                             frame.setVisible(true);
                             customer.setCustomerID(c_id);
+                            activeUser.setCustomer(true);
+                            activeUser.setUser_id(Integer.parseInt(c_id));
                         }
                         else{
                             throw new SQLException();
@@ -71,6 +74,8 @@ public class login {
                             frame.pack();
                             frame.setVisible(true);
                             Seller.setSellerID(s_id);
+                            activeUser.setSeller(true);
+                            activeUser.setUser_id(Integer.parseInt(s_id));
                         }
                         else{
                             throw new SQLException();

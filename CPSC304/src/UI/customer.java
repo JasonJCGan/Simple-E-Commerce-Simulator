@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 import net.proteanit.sql.DbUtils;
+import package1.ActiveUser;
 import package1.Connections;
 
 public class customer {
@@ -30,11 +31,8 @@ public class customer {
     private JTextField search_rating;
     private JButton findRatingButton;
     private JTable tableSearch;
-    private String customerID;
 
-    public void setCustomerID(String customerID) {
-        this.customerID = customerID;
-    }
+    private ActiveUser activeUser = ActiveUser.getActiveUser();
 
     public customer() {
         searchButton.addActionListener(new ActionListener() {
@@ -183,13 +181,13 @@ public class customer {
                     Connection con = Connections.getConnection();
                     Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
                     ResultSet rs;
-                    rs = stmt.executeQuery("SELECT R.*, FROM rate R, WHERE R.customer_id = " + customerID + " AND R.producthas_id = " + rate_proID.getText());
+                    rs = stmt.executeQuery("SELECT R.*, FROM rate R, WHERE R.customer_id = " + activeUser.getUser_id() + " AND R.producthas_id = " + rate_proID.getText());
                     if (rs.wasNull()) {
                         rs = stmt.executeQuery("SELECT R.* FROM rate R");
 
                         rs.moveToInsertRow();
                         rs.updateFloat(1, Float.parseFloat(rate_score.getText()));
-                        rs.updateInt(2, Integer.parseInt(customerID));
+                        rs.updateInt(2, activeUser.getUser_id());
                         rs.updateInt(3, Integer.parseInt(rate_proID.getText()));
                         rs.moveToCurrentRow();
                         JOptionPane.showMessageDialog(null, "Item rated!");
@@ -217,7 +215,7 @@ public class customer {
                     java.util.Date today = new java.util.Date();
                     java.sql.Date sqlToday = new java.sql.Date(today.getTime());
                     int rowCount = stmt.executeUpdate("INSERT INTO PUTORDER VALUES (" + rows + ", " +
-                            null + ", " + null + ", " + sqlToday + ", " + "PayPal, " + customerID + ", " + order_proID.getText() +")");
+                            null + ", " + null + ", " + sqlToday + ", " + "PayPal, " + activeUser.getUser_id() + ", " + order_proID.getText() +")");
                 }
                 catch (SQLException ex) {
                     System.out.println("Order not made : " + ex.getMessage());
