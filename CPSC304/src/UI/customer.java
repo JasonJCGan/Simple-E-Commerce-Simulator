@@ -180,23 +180,34 @@ public class customer {
             public void actionPerformed(ActionEvent e) {
                 try {
                     Connection con = Connections.getConnection();
-                    Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                    ResultSet rs;
-                    rs = stmt.executeQuery("SELECT R.*, FROM rate R, WHERE R.customer_id = " + activeUser.getUser_id() + " AND R.producthas_id = " + rate_proID.getText());
-                    if (rs.wasNull()) {
-                        rs = stmt.executeQuery("SELECT R.* FROM rate R");
-
-                        rs.moveToInsertRow();
-                        rs.updateFloat(1, Float.parseFloat(rate_score.getText()));
-                        rs.updateInt(2, activeUser.getUser_id());
-                        rs.updateInt(3, Integer.parseInt(rate_proID.getText()));
-                        rs.moveToCurrentRow();
+                    boolean empty;
+                    String query = "SELECT R.* FROM rate R WHERE R.customer_id = " + activeUser.getUser_id() + " AND R.producthas_id = " + rate_proID.getText();
+                    try (PreparedStatement ps = con.prepareStatement
+                            (query)) {
+                        ResultSet temp = ps.executeQuery();
+                        empty = temp.next();
+                    }
+                    System.out.println(empty);
+                    if (!empty) {
+                        try (PreparedStatement ps = con.prepareStatement("INSERT INTO rate(rate_rating, customer_id, producthas_id) VALUES (?,?,?)")) {
+                            ps.setFloat(1, Float.parseFloat(rate_score.getText()));
+                            ps.setInt(2, activeUser.getUser_id());
+                            ps.setInt(3, Integer.parseInt(rate_proID.getText()));
+                            ps.executeUpdate();
+                            con.commit();
+                        }
                         JOptionPane.showMessageDialog(null, "Item rated!");
                     }
                     else {
-                        rs.updateFloat(1, Float.parseFloat(rate_score.getText()));
+                        try (PreparedStatement ps = con.prepareStatement("UPDATE rate SET rate_rating = ? WHERE customer_id = ? AND producthas_id = ?")) {
+                            ps.setInt(1, Integer.parseInt(rate_score.getText()));
+                            ps.setInt(2, activeUser.getUser_id());
+                            ps.setString(3, rate_proID.getText());
+                            ps.executeUpdate();
+                            con.commit();
+                        }
                         JOptionPane.showMessageDialog(null, "Rating updated!");
-                    };
+                    }
 
                 }
                 catch (SQLException ex) {
