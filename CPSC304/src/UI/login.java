@@ -44,7 +44,6 @@ public class login {
                             frame.setContentPane(customer.CustomerUI);
                             frame.pack();
                             frame.setVisible(true);
-                            customer.setCustomerID(c_id);
                             activeUser.setCustomer(true);
                             activeUser.setUser_id(Integer.parseInt(c_id));
                         }
@@ -73,7 +72,6 @@ public class login {
                             frame.setContentPane(Seller.SellerUI);
                             frame.pack();
                             frame.setVisible(true);
-                            Seller.setSellerID(s_id);
                             activeUser.setSeller(true);
                             activeUser.setUser_id(Integer.parseInt(s_id));
                         }
