@@ -31,6 +31,7 @@ public class customer {
     private JTextField search_rating;
     private JButton findRatingButton;
     private JTable tableSearch;
+    private JButton LOGOUTButton;
 
     private ActiveUser activeUser = ActiveUser.getActiveUser();
 
@@ -225,6 +226,20 @@ public class customer {
         });
 
 
+        LOGOUTButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                activeUser.setCustomer(false);
+                activeUser.setUser_id(0);
 
+                JOptionPane.showMessageDialog(null,"Logging Out");
+                JFrame frame = JFrames.get_frame();
+                frame.setTitle("Login");
+                login login = new login();
+                frame.setContentPane(login.log_in);
+                frame.pack();
+                frame.setVisible(true);
+            }
+        });
     }
 }

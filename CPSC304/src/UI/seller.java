@@ -23,6 +23,7 @@ public class seller {
     public JPanel SellerUI;
     private JTable tableProduct;
     private JTable tableRatings;
+    private JButton LOGOUTButton;
 
     private static Connection con;
     private ActiveUser activeUser = ActiveUser.getActiveUser();
@@ -116,6 +117,20 @@ public class seller {
                 }
         });
 
+        LOGOUTButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                activeUser.setSeller(false);
+                activeUser.setUser_id(0);
 
+                JOptionPane.showMessageDialog(null,"Logging Out");
+                JFrame frame = JFrames.get_frame();
+                frame.setTitle("Login");
+                login login = new login();
+                frame.setContentPane(login.log_in);
+                frame.pack();
+                frame.setVisible(true);
+            }
+        });
     }
 }
