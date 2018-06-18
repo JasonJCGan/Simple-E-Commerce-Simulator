@@ -39,8 +39,8 @@ public class customer {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String SELECT = "SELECT P.producthas_id";
-                String FROM = " FROM producthas P ";
+                String SELECT = "SELECT P.producthas_name, P.producthas_brand, P.producthas_price, P.producthas_id, P.seller_id, ";
+                String FROM = " FROM producthas P";
                 String WHERE = "";
                 try {
                     Connection con = Connections.getConnection();
@@ -55,9 +55,10 @@ public class customer {
                     WHERE = setPriceRange(WHERE, low, high);
 
                     if (!search_sellerName.getText().isEmpty()){
-                        SELECT += ", seller S";
+                        SELECT += "S.seller_name";
+                        FROM += ", seller S ";
                         if (WHERE.isEmpty()) {
-                            WHERE = "WHERE P.seller_id = S.seller_id AND S.seller_name LIKE %" + search_sellerName + "%";
+                            WHERE = " WHERE P.seller_id = S.seller_id AND S.seller_name LIKE %" + search_sellerName + "%";
                         }
                         else {
                             WHERE = WHERE + " AND P.seller_id = S.seller_id AND S.seller_name LIKE %" + search_sellerName + "%";
@@ -65,8 +66,8 @@ public class customer {
                     }
 
                     rs =stmt.executeQuery(SELECT + FROM + WHERE);
-                    // Do something with ResultSet
 
+                    viewResultSet(rs);
                 }catch(SQLException ex){
                     System.out.println("Search failed (Combo): " + ex.getMessage());
                 }
@@ -75,7 +76,7 @@ public class customer {
             private String getLikePName(String where, String proName) {
                 if (!proName.isEmpty()){
                     if (where.isEmpty()) {
-                        where = "WHERE P.producthas_name LIKE %" + proName + "%";
+                        where = " WHERE P.producthas_name LIKE %" + proName + "%";
                     }
                     else {
                         where += " AND P.producthas_name LIKE %" + proName + "%";
@@ -87,7 +88,7 @@ public class customer {
             private String setPriceRange(String where, String low, String high) {
                 if (!(low.isEmpty() && high.isEmpty())){
                     if (where.isEmpty()) {
-                        where = "WHERE P.producthas_price <= " + high + " AND P.producthas_price >= " + low;
+                        where = " WHERE P.producthas_price <= " + high + " AND P.producthas_price >= " + low;
                     }
                     else {
                         where += " AND P.producthas_price <= " + high + " AND P.producthas_price >= " + low;
@@ -123,8 +124,7 @@ public class customer {
                             "FROM producthas P " +
                             "WHERE P.producthas_id = " + search_rating);
 
-                    // Do something with ResultSet
-
+                    viewResultSet(rs);
                 }
                 catch (SQLException ex){
                     System.out.println("Search failed (Rating): " + ex.getMessage());
@@ -141,8 +141,7 @@ public class customer {
                     ResultSet rs = stmt.executeQuery("SELECT MIN(P.producthas_price) " +
                             "FROM producthas P");
 
-                    // Do something with ResultSet
-
+                    viewResultSet(rs);
                 }
                 catch (SQLException ex){
                     System.out.println("Search failed (Rating): " + ex.getMessage());
@@ -158,8 +157,7 @@ public class customer {
                     ResultSet rs = stmt.executeQuery("SELECT MAX(P.producthas_price) " +
                             "FROM producthas P");
 
-                    // Do something with ResultSet
-
+                    viewResultSet(rs);
                 }
                 catch (SQLException ex){
                     System.out.println("Search failed (Rating): " + ex.getMessage());
@@ -181,5 +179,16 @@ public class customer {
 
 
 
+    }
+
+    private void viewResultSet(ResultSet rs) throws SQLException {
+        while(rs.next()) {
+            text_proname.setText(rs.getString("producthas_name"));
+            text_probrand.setText(rs.getString("producthas_brand"));
+            text_proprice.setText(rs.getString("producthas_price"));
+            text_proID.setText(rs.getString("producthas_id"));
+            text_sellerID.setText(rs.getString("seller_id"));
+            text_sellername.setText(rs.getString("seller_name"));
+        }
     }
 }
