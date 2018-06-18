@@ -187,7 +187,7 @@ public class customer {
                         ResultSet temp = ps.executeQuery();
                         empty = temp.next();
                     }
-                    System.out.println(empty);
+
                     if (!empty) {
                         try (PreparedStatement ps = con.prepareStatement("INSERT INTO rate(rate_rating, customer_id, producthas_id) VALUES (?,?,?)")) {
                             ps.setFloat(1, Float.parseFloat(rate_score.getText()));
@@ -210,9 +210,9 @@ public class customer {
                     }
 
                 }
-                catch (SQLException ex) {
-                    System.out.println("Rating failed : " + ex.getMessage());
-                    JOptionPane.showMessageDialog(null, "Rating failed.");
+                catch (Exception e1){
+                    System.out.println("Rating failed : " + e1.getMessage());
+                    JOptionPane.showMessageDialog(null, "Rating failed." + e1.getMessage());
                 }
             }
         });
