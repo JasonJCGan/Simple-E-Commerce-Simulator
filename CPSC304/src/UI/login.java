@@ -1,5 +1,7 @@
 import package1.Connections;
 import package1.Operations;
+
+import javax.sound.midi.SysexMessage;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,15 +14,22 @@ public class login {
     private JTextField sellerID;
     private JButton logInAsCustomerButton;
     private JButton logInAsSellerButton;
-    //used to call methods in operations
+
     public Operations ope = new Operations();
+    private static Connection con;
+
+    static {
+        try {
+            con = Connections.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public login() {
         logInAsCustomerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    Connection con = (Connection) Connections.getConnection();
                     String c_id = customerID.getText();
                     boolean logged;
                     try{
@@ -40,19 +49,14 @@ public class login {
                             throw new SQLException();
                         }
                     }
-                    catch (java.sql.SQLException e2){
-                        JOptionPane.showMessageDialog(null,"Incorrect CustomerID");
+                    catch (java.sql.SQLException e2) {
+                        JOptionPane.showMessageDialog(null, "Incorrect CustomerID");
                     }
-                } catch (java.sql.SQLException e1) {
-                    JOptionPane.showMessageDialog(null,"e1");
-                }
             }
         });
         logInAsSellerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    Connection con = (Connection) Connections.getConnection();
                     String s_id = sellerID.getText();
                     boolean logged;
                     try{
@@ -72,12 +76,9 @@ public class login {
                             throw new SQLException();
                         }
                     }
-                    catch (java.sql.SQLException e2){
-                        JOptionPane.showMessageDialog(null,"Incorrect SellerID");
+                    catch (java.sql.SQLException e2) {
+                        JOptionPane.showMessageDialog(null, "Incorrect SellerID");
                     }
-                } catch (java.sql.SQLException e1) {
-                    JOptionPane.showMessageDialog(null,"e1");
-                }
 
             }
         });

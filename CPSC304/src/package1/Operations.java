@@ -1,6 +1,5 @@
 package package1;
 
-import javax.sound.midi.SysexMessage;
 import java.sql.*;
 
 public class Operations {
@@ -14,8 +13,7 @@ public class Operations {
                     ("SELECT Customer_ID FROM Customer WHERE Customer_ID = ? ")) {
                 ps.setInt(1, c_id);
                 ResultSet temp = ps.executeQuery();
-                r = !temp.wasNull();
-                ps.close();
+                r = temp.next();
             }
         }catch (Exception e){
             throw new SQLException();
@@ -32,8 +30,7 @@ public class Operations {
                     ("SELECT Seller_ID FROM Seller WHERE Seller_ID = ? ")) {
                 ps.setInt(1, s_id);
                 ResultSet temp = ps.executeQuery();
-                r = !temp.wasNull();
-                ps.close();
+                r = temp.next();
             }
         }catch (Exception e){
             throw new SQLException();
@@ -51,12 +48,6 @@ public class Operations {
                     ("INSERT INTO producthas " +
                             "(producthas_id,producthas_stock,producthas_name,producthas_category,producthas_brand,producthas_price,producthas_vipdiscount,seller_id) " +
                             "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-//            PreparedStatement ps = con.prepareStatement
-//                    ("INSERT INTO seller VALUES (?, ?, ?, ?)");
-//            ps.setInt(1,1);
-//            ps.setString(2, "jason");
-//            ps.setString(3, "6049991111");
-//            ps.setString(4, "my address bc canada");
 
             ps.setInt(1, id);
             ps.setInt(2, quantity);
@@ -66,9 +57,7 @@ public class Operations {
             ps.setFloat(6, price);
             ps.setFloat(7, discount);
             ps.setInt(8, sellerId);
-            System.out.println(ps.toString());
             ps.executeUpdate();
-            System.out.println("after");
             con.commit();
             ps.close();
             r = true;
