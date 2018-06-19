@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="seller">
-  <grid id="27dc6" binding="SellerUI" layout-manager="GridLayoutManager" row-count="6" column-count="8" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="SellerUI" layout-manager="GridLayoutManager" row-count="8" column-count="8" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="0" width="969" height="469"/>
+      <xy x="20" y="0" width="1031" height="469"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -190,6 +190,38 @@
           </component>
         </children>
       </grid>
+      <component id="7798b" class="javax.swing.JButton" binding="findMaxAverageRatingButton" default-binding="true">
+        <constraints>
+          <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Find Max Average Rating Category"/>
+        </properties>
+      </component>
+      <component id="19399" class="javax.swing.JButton" binding="findMinAverageRatingButton" default-binding="true">
+        <constraints>
+          <grid row="7" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Find Min Average Rating Category"/>
+        </properties>
+      </component>
+      <component id="9780e" class="javax.swing.JButton" binding="findMaxAverageRatingButton1" default-binding="true">
+        <constraints>
+          <grid row="6" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Find Max Average Rating Brand"/>
+        </properties>
+      </component>
+      <component id="5a300" class="javax.swing.JButton" binding="findMinAverageRatingButton1" default-binding="true">
+        <constraints>
+          <grid row="7" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Find Min Average Rating Brand"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>

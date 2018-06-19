@@ -5,10 +5,7 @@ import package1.Operations;
 
 import javax.sound.midi.SysexMessage;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import java.awt.event.*;
 import java.sql.*;
 
 public class seller {
@@ -27,6 +24,10 @@ public class seller {
     private JTable tableDiv;
     private JTextField divField;
     private JButton divButton;
+    private JButton findMaxAverageRatingButton;
+    private JButton findMinAverageRatingButton;
+    private JButton findMaxAverageRatingButton1;
+    private JButton findMinAverageRatingButton1;
 
     private static Connection con;
     private ActiveUser activeUser = ActiveUser.getActiveUser();
@@ -163,6 +164,71 @@ public class seller {
                 catch (SQLException ex) {
                     System.out.println("Search failed (Division): " + ex.getMessage());
                     JOptionPane.showMessageDialog(null, "Search failed.");
+                }
+            }
+        });
+        findMaxAverageRatingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                String query = "select max(avg) from (select avg(r.rate_rating) as avg, p.producthas_category from " +
+                        "(select producthas_id, producthas_category from producthas) P, rate R where P.producthas_id = R.producthas_id group by P.producthas_category)";
+                try{
+                    PreparedStatement ps = con.prepareStatement(query);
+                    ResultSet r = ps.executeQuery();
+                    tableProduct.setModel(DbUtils.resultSetToTableModel(r));
+                }
+                catch (java.sql.SQLException e2){
+                    System.out.println(e2);
+                    JOptionPane.showMessageDialog(null,"Failed to update!");
+                }
+            }
+        });
+        findMinAverageRatingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                String query = "select min(avg) from (select avg(r.rate_rating) as avg, p.producthas_category from " +
+                        "(select producthas_id, producthas_category from producthas) P, rate R where P.producthas_id = R.producthas_id group by P.producthas_category)";
+                try{
+                    PreparedStatement ps = con.prepareStatement(query);
+                    ResultSet r = ps.executeQuery();
+                    tableProduct.setModel(DbUtils.resultSetToTableModel(r));
+                }
+                catch (java.sql.SQLException e2){
+                    System.out.println(e2);
+                    JOptionPane.showMessageDialog(null,"Failed to update!");
+                }
+            }
+        });
+        findMaxAverageRatingButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                String query = "select max(avg) from (select avg(r.rate_rating) as avg, p.producthas_brand from " +
+                        "(select producthas_id, producthas_brand from producthas) P, rate R where P.producthas_id = R.producthas_id group by P.producthas_brand)";
+                try{
+                    PreparedStatement ps = con.prepareStatement(query);
+                    ResultSet r = ps.executeQuery();
+                    tableProduct.setModel(DbUtils.resultSetToTableModel(r));
+                }
+                catch (java.sql.SQLException e2){
+                    System.out.println(e2);
+                    JOptionPane.showMessageDialog(null,"Failed to update!");
+                }
+            }
+        });
+
+        findMinAverageRatingButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                String query = "select min(avg) from (select avg(r.rate_rating) as avg, p.producthas_brand from " +
+                        "(select producthas_id, producthas_brand from producthas) P, rate R where P.producthas_id = R.producthas_id group by P.producthas_brand)";
+                try{
+                    PreparedStatement ps = con.prepareStatement(query);
+                    ResultSet r = ps.executeQuery();
+                    tableProduct.setModel(DbUtils.resultSetToTableModel(r));
+                }
+                catch (java.sql.SQLException e2){
+                    System.out.println(e2);
+                    JOptionPane.showMessageDialog(null,"Failed to update!");
                 }
             }
         });
