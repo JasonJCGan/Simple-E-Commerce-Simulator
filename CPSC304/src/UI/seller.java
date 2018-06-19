@@ -91,7 +91,9 @@ public class seller {
             @Override
             public void focusGained(FocusEvent focusEvent) {
                 super.focusGained(focusEvent);
-                String query = "select * from rate";
+                String query = "SELECT R.rate_rating, R.PRODUCTHAS_ID " +
+                                "FROM RATE R, PRODUCTHAS P " +
+                                "WHERE P.SELLER_ID = " + Integer.toString(activeUser.getUser_id()) + " AND R.PRODUCTHAS_ID = P.PRODUCTHAS_ID";
                 try {
                     PreparedStatement ps = con.prepareStatement(query);
                     ResultSet r = ps.executeQuery();
