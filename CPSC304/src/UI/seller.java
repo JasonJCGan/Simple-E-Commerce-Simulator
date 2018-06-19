@@ -24,6 +24,9 @@ public class seller {
     private JTable tableProduct;
     private JTable tableRatings;
     private JButton LOGOUTButton;
+    private JTable tableDiv;
+    private JTextField divField;
+    private JButton divButton;
 
     private static Connection con;
     private ActiveUser activeUser = ActiveUser.getActiveUser();
@@ -104,7 +107,7 @@ public class seller {
             @Override
             public void focusGained(FocusEvent focusEvent) {
                 super.focusGained(focusEvent);
-                String query = "select * from producthas";
+                String query = "select * from producthas where producthas.SELLER_ID = " + Integer.toString(activeUser.getUser_id());
                     try{
                         PreparedStatement ps = con.prepareStatement(query);
                         ResultSet r = ps.executeQuery();
@@ -130,6 +133,35 @@ public class seller {
                 frame.setContentPane(login.log_in);
                 frame.pack();
                 frame.setVisible(true);
+            }
+        });
+
+
+        divButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String query = "SELECT C.customer_id " +
+                                "FROM customer C " +
+                                "WHERE NOT EXISTS (" +
+                                    "SELECT P.producthas_id " +
+                                    "FROM producthas P " +
+                                    "WHERE P.producthas_brand = '" + divField.getText() + "' AND NOT EXISTS (" +
+                                        "SELECT O.putorder_id " +
+                                        "FROM putorder O " +
+                                        "WHERE P.producthas_id = O.producthas_id " +
+                                        "AND O.customer_id = C.customer_id" +
+                                        ")" +
+                                    ")";
+                try {
+                    Statement stmt = con.createStatement();
+                    ResultSet rs = stmt.executeQuery(query);
+                    tableDiv.setModel(DbUtils.resultSetToTableModel(rs));
+                    JOptionPane.showMessageDialog(null, "Search success!");
+                }
+                catch (SQLException ex) {
+                    System.out.println("Search failed (Division): " + ex.getMessage());
+                    JOptionPane.showMessageDialog(null, "Search failed.");
+                }
             }
         });
     }
