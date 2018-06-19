@@ -136,7 +136,7 @@ public class customer {
                 try {
                     Connection con = Connections.getConnection();
                     Statement stmt = con.createStatement();
-                    ResultSet rs = stmt.executeQuery("SELECT P.producthas_name, P.producthas_brand, P.producthas_price, P.producthas_id, P.seller_id, " +
+                    ResultSet rs = stmt.executeQuery("SELECT P.producthas_name, P.producthas_brand, P.producthas_price, P.producthas_id, P.seller_id " +
                                                             "FROM producthas P " +
                                                             "WHERE P.producthas_price IN (SELECT MIN(P1.producthas_price) " +
                                                                                             "FROM producthas P1)");
@@ -155,7 +155,7 @@ public class customer {
                 try {
                     Connection con = Connections.getConnection();
                     Statement stmt = con.createStatement();
-                    ResultSet rs = stmt.executeQuery("SELECT P.producthas_name, P.producthas_brand, P.producthas_price, P.producthas_id, P.seller_id, " +
+                    ResultSet rs = stmt.executeQuery("SELECT P.producthas_name, P.producthas_brand, P.producthas_price, P.producthas_id, P.seller_id " +
                                                             "FROM producthas P " +
                                                             "WHERE P.producthas_price IN (SELECT MAX(P1.producthas_price) " +
                                                                                             "FROM producthas P1)");
