@@ -9,12 +9,6 @@ import package1.ActiveUser;
 import package1.Connections;
 
 public class customer {
-    private JTextArea text_proname;
-    private JTextArea text_proprice;
-    private JTextArea text_probrand;
-    private JTextArea text_proID;
-    private JTextArea text_sellerID;
-    private JTextArea text_sellername;
     private JTextField price_low;
     private JTextField price_high;
     private JButton findCheapestProductButton;
@@ -39,8 +33,8 @@ public class customer {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String SELECT = "SELECT P.producthas_name, P.producthas_brand, P.producthas_price, P.producthas_id, P.seller_id, ";
-                String FROM = " FROM producthas P";
+                String SELECT = "SELECT P.producthas_name, P.producthas_brand, P.producthas_price, P.producthas_id, P.seller_id ";
+                String FROM = "FROM producthas P ";
                 String WHERE = "";
                 try {
                     Connection con = Connections.getConnection();
@@ -54,15 +48,14 @@ public class customer {
                     WHERE = getLikePName(WHERE, proName);
                     WHERE = setPriceRange(WHERE, low, high);
 
-                    if (!search_sellerName.getText().isEmpty()){
-                        SELECT += "S.seller_name";
-                        FROM += ", seller S ";
+                    if (!(sellerName.isEmpty() || sellerName == null)){
+                        SELECT = "SELECT P.producthas_name, P.producthas_brand, P.producthas_price, P.producthas_id, P.seller_id, S.seller_name ";
+                        FROM = "FROM producthas P, seller S ";
                         if (WHERE.isEmpty()) {
-                            WHERE = " WHERE P.seller_id = S.seller_id AND S.seller_name LIKE %" + search_sellerName + "%";
-
+                            WHERE = "WHERE P.seller_id = S.seller_id AND S.seller_name LIKE '%" + sellerName + "%'";
                         }
                         else {
-                            WHERE = WHERE + " AND P.seller_id = S.seller_id AND S.seller_name LIKE %" + search_sellerName + "%";
+                            WHERE = WHERE + " AND P.seller_id = S.seller_id AND S.seller_name LIKE '%" + sellerName + "%'";
                         }
                     }
 
@@ -76,24 +69,24 @@ public class customer {
             }
 
             private String getLikePName(String where, String proName) {
-                if (!proName.isEmpty()){
+                if (!(proName.isEmpty() || proName == null)){
                     if (where.isEmpty()) {
-                        where = " WHERE P.producthas_name LIKE %" + proName + "%";
+                        where = "WHERE P.producthas_name LIKE '%" + proName + "%'";
                     }
                     else {
-                        where += " AND P.producthas_name LIKE %" + proName + "%";
+                        where = where + " AND P.producthas_name LIKE '%" + proName + "%'";
                     }
                 }
                 return where;
             }
 
             private String setPriceRange(String where, String low, String high) {
-                if (!(low.isEmpty() && high.isEmpty())){
+                if (!(low.isEmpty() || high.isEmpty())){
                     if (where.isEmpty()) {
-                        where = " WHERE P.producthas_price <= " + high + " AND P.producthas_price >= " + low;
+                        where = "WHERE P.producthas_price <= " + high + " AND P.producthas_price >= " + low;
                     }
                     else {
-                        where += " AND P.producthas_price <= " + high + " AND P.producthas_price >= " + low;
+                        where = where + " AND P.producthas_price <= " + high + " AND P.producthas_price >= " + low;
                     }
                 }
                 else if (!low.isEmpty()){
